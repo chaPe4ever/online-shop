@@ -3,13 +3,27 @@ import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router';
+import { registerUser } from '@/lib/api';
+import { Spinner } from '@/components/ui/spinner';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
+  const [isLoading, setIsLoading] = useState();
+  const [error, setError] = useState(null);
 
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
+    try {
+      setError(null);
+      setIsLoading(true);
+      await registerUser({ email });
+      navigate('/auth/validation');
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleLoginHere = () => {
@@ -29,7 +43,7 @@ const RegisterPage = () => {
             <Input
               required
               name="email"
-              placeHolder="Email"
+              placeholder="Email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -42,8 +56,10 @@ const RegisterPage = () => {
             size="sm"
           >
             Register
+            {isLoading && <Spinner />}
           </Button>
         </form>
+        <Label className="mt-3 text-rose-500">{error} </Label>
         <Label className="items-star mt-4 justify-start font-extralight">
           Have already an account?
           <span

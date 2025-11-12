@@ -1,7 +1,9 @@
+import { NavigationMenu } from '@radix-ui/react-navigation-menu';
+
 const HomePage = () => {
   return (
     <>
-      <h1>HASD</h1>
+      <NavigationMenu></NavigationMenu>
     </>
   );
 };

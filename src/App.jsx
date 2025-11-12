@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
+import ValidationPage from './pages/ValidationPage';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route path="/auth">
         <Route index path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="validation" element={<ValidationPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

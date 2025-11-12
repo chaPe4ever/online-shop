@@ -3,14 +3,31 @@ import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router';
+import { getAuthInfo } from '@/lib/api';
+import { Spinner } from '@/components/ui/spinner';
+import { useDispatch } from 'react-redux';
+import { login } from '@/store/auth/auth.reducer';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
+    try {
+      setIsLoading(true);
+      const authInfo = await getAuthInfo({ email, password });
+      dispatch(login(authInfo));
+      navigate('/');
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleRegisterHere = () => {
@@ -30,7 +47,7 @@ const LoginPage = () => {
             <Input
               required
               name="email"
-              placeHolder="Email"
+              placeholder="Email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -41,7 +58,7 @@ const LoginPage = () => {
             <Input
               required
               name="password"
-              placeHolder="Password"
+              placeholder="Password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -54,8 +71,10 @@ const LoginPage = () => {
             size="sm"
           >
             Login
+            {isLoading && <Spinner />}
           </Button>
         </form>
+        <Label className="mt-3 text-rose-500">{error} </Label>
         <Label className="items-star mt-4 justify-start font-extralight">
           Haven't got an account?{' '}
           <span
