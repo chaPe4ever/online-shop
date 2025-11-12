@@ -4,25 +4,24 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router';
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
 
-  const handleLoginSubmit = (e) => {
+  const handleRegisterSubmit = (e) => {
     e.preventDefault();
   };
 
-  const handleRegisterHere = () => {
-    navigate('/auth/register');
+  const handleLoginHere = () => {
+    navigate('/auth/login');
   };
 
   return (
     <div className="flex h-screen flex-col items-center justify-center gap-5">
       <div className="flex w-1/2 flex-col items-center justify-center">
-        <h1 className="text-2xl">Login Page</h1>
+        <h1 className="text-2xl">Register Page</h1>
         <form
-          onSubmit={handleLoginSubmit}
+          onSubmit={handleRegisterSubmit}
           className="flex w-full flex-col gap-2"
         >
           <div>
@@ -36,33 +35,22 @@ const LoginPage = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div>
-            <Label className="mb-1">Password</Label>
-            <Input
-              required
-              name="password"
-              placeHolder="Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
           <Button
             type="submit"
             className="mt-10 hover:bg-amber-100 md:cursor-pointer"
             variant="outline"
             size="sm"
           >
-            Login
+            Register
           </Button>
         </form>
         <Label className="items-star mt-4 justify-start font-extralight">
-          Haven't got an account?{' '}
+          Have already an account?
           <span
             className="font-bold md:cursor-pointer"
-            onClick={handleRegisterHere}
+            onClick={handleLoginHere}
           >
-            Register here
+            Login here
           </span>
         </Label>
       </div>
@@ -70,4 +58,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
