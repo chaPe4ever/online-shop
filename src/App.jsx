@@ -1,10 +1,13 @@
 import { Route, Routes } from 'react-router';
 import './App.css';
+import LoginPage from './pages/LoginPage';
 
 function App() {
-  <Routes>
-    <Route path="/" element={<div>Home</div>} />
-  </Routes>;
+  return (
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+    </Routes>
+  );
 }
 
 export default App;
