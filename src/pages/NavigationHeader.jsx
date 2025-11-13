@@ -10,8 +10,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { Spinner } from '@/components/ui/spinner';
 import { logout } from '@/store/auth/auth.reducer';
-import { selectIsAuthenticated, selectUser } from '@/store/auth/auth.selector';
+import {
+  selectIsAuthenticated,
+  selectIsLoading,
+  selectUser,
+} from '@/store/auth/auth.selector';
 import { NavigationMenu } from '@radix-ui/react-navigation-menu';
 import { ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
@@ -22,6 +27,7 @@ const NavigationHeader = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const isLoading = useSelector(selectIsLoading);
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const handleLogoutUser = async () => {
@@ -41,7 +47,9 @@ const NavigationHeader = () => {
           <div className="flex flex-1"></div>
           <div className="flex gap-4">
             <NavigationMenuItem>
-              {isAuthenticated && user ? (
+              {isLoading ? (
+                <Spinner className="size-5 h-full w-full" />
+              ) : isAuthenticated && user ? (
                 <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
                   <PopoverTrigger>
                     <Avatar className="md:hover:cursor-pointer">

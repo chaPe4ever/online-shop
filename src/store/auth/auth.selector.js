@@ -11,3 +11,11 @@ export const selectIsAuthenticated = createSelector(
   [selectAuthReducer],
   (auth) => Boolean(auth.accessToken)
 );
+
+export const selectIsLoading = createSelector([selectAuthReducer], (auth) =>
+  Boolean(auth.isLoading)
+);
+
+export const selectErrorMsg = createSelector([selectAuthReducer], (auth) =>
+  Boolean(auth.errorMsg)
+);

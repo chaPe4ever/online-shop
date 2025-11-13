@@ -4,6 +4,8 @@ const INITIAL_STATE = {
   accessToken: undefined,
   refreshToken: undefined,
   user: undefined,
+  isLoading: undefined,
+  errorMsg: undefined,
 };
 
 export const authSlice = createSlice({
@@ -22,9 +24,19 @@ export const authSlice = createSlice({
       state.accessToken = null;
       state.refreshToken = null;
     },
+    setUser(state, action) {
+      state.user = action.payload;
+    },
+    setIsLoading(state, action) {
+      state.isLoading = action.payload;
+    },
+    setErrorMsg(state, action) {
+      state.errorMsg = action.payload;
+    },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, setUser, setIsLoading, setErrorMsg } =
+  authSlice.actions;
 
 export const authReducer = authSlice.reducer;

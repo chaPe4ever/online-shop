@@ -38,6 +38,7 @@ const RegisterPage = () => {
           onSubmit={handleRegisterSubmit}
           className="flex w-full flex-col gap-2"
         >
+          {/* TODO add validation form here and add dialog to add the email code to proceed */}
           <div>
             <Label className="mb-1">Email</Label>
             <Input

@@ -77,6 +77,18 @@ export const getAuthInfo = async ({ email, password }) => {
   }
 };
 
+export const verifyToken = async ({ token }) => {
+  try {
+    const res = await api.post('auth/token/verify/', { token });
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(
+      `Error verifying current token: ${extractErrorMessage(error)}`
+    );
+  }
+};
+
 export const registerUser = async ({ email }) => {
   try {
     const res = await api.post('auth/registration/', { email });
@@ -111,5 +123,16 @@ export const validateUser = async ({
     console.error(error);
 
     throw new Error(`Error validating user: ${extractErrorMessage(error)}`);
+  }
+};
+
+// Users
+export const fetchMyUser = async () => {
+  try {
+    const res = await apiAuth.get('users/me/');
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(`Error fetchin my user: ${extractErrorMessage(error)}`);
   }
 };
