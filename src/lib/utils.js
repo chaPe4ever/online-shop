@@ -93,9 +93,9 @@ export const tryCatch = async (dispatch, cb, options = {}) => {
 
     if (onError) {
       onError(error);
-    } else {
-      dispatch(setErrorMsg(errorMessage)); // Use extracted string
     }
+
+    dispatch(setErrorMsg(errorMessage)); // Use extracted string
 
     if (rethrow) {
       throw error;
@@ -104,8 +104,7 @@ export const tryCatch = async (dispatch, cb, options = {}) => {
   } finally {
     if (onFinally) {
       onFinally();
-    } else {
-      dispatch(setIsLoading(false));
     }
+    dispatch(setIsLoading(false));
   }
 };

@@ -32,6 +32,7 @@ import { ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Outlet } from 'react-router';
+import { toast } from 'sonner';
 
 const NavigationHeader = () => {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ const NavigationHeader = () => {
     await tryCatch(dispatch, () => {
       dispatch(logout());
       setTimeout(() => setIsPopoverOpen(false), 200);
+      toast('Succesfully logged out!');
     });
   };
 
@@ -52,6 +54,7 @@ const NavigationHeader = () => {
     await tryCatch(dispatch, async () => {
       await deleteMyUser();
       dispatch(logout());
+      toast('Succesfully deleted your account!');
     });
   };
 

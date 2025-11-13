@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { extractErrorMessage } from './utils';
+import { LocalStorageService } from './LocalStorageService';
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -20,7 +21,7 @@ export const apiAuth = axios.create({
 // Add access token to Authorization header if present
 apiAuth.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('accessToken');
+    const token = LocalStorageService.getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -42,7 +43,7 @@ apiAuth.interceptors.response.use(
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
-      const refreshToken = localStorage.getItem('refreshToken');
+      const refreshToken = LocalStorageService.getRefreshToken();
       if (refreshToken) {
         try {
           // Request new access token using refresh token
@@ -50,16 +51,15 @@ apiAuth.interceptors.response.use(
             refresh: refreshToken,
           });
           const { access } = res.data;
-          localStorage.setItem('accessToken', access);
+          LocalStorageService.setAccessToken(access);
 
           // Update Authorization header and retry original request
           originalRequest.headers.Authorization = `Bearer ${access}`;
           return apiAuth(originalRequest);
         } catch (error) {
           console.log(`Error refreshing token: ${error.message}`);
-          // Clear tokens and maybe handle logout here
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
+          // Clear access-refresh tokens from storage
+          LocalStorageService.clearAuthTokens();
         }
       }
     }

@@ -1,3 +1,4 @@
+import { LocalStorageService } from '@/lib/LocalStorageService';
 import { createSlice } from '@reduxjs/toolkit';
 
 const INITIAL_STATE = {
@@ -17,14 +18,13 @@ export const authSlice = createSlice({
       state.accessToken = authInfo.access;
       state.refreshToken = authInfo.refresh;
       state.user = authInfo.user;
-      localStorage.setItem('accessToken', authInfo.access);
-      localStorage.setItem('refreshToken', authInfo.refresh);
+      LocalStorageService.setAccessToken(authInfo.access);
+      LocalStorageService.setRefreshToken(authInfo.refresh);
     },
     logout(state) {
       state.accessToken = null;
       state.refreshToken = null;
-      localStorage.removeItem('accessToken', null);
-      localStorage.removeItem('refreshToken', null);
+      LocalStorageService.clearAuthTokens();
     },
     setUser(state, action) {
       state.user = action.payload;
