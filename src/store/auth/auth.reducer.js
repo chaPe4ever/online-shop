@@ -18,13 +18,13 @@ export const authSlice = createSlice({
       state.refreshToken = authInfo.refresh;
       state.user = authInfo.user;
       localStorage.setItem('accessToken', authInfo.access);
-      localStorage.setItem('refresToken', authInfo.refresh);
+      localStorage.setItem('refreshToken', authInfo.refresh);
     },
     logout(state) {
       state.accessToken = null;
       state.refreshToken = null;
-      localStorage.setItem('accessToken', null);
-      localStorage.setItem('refresToken', null);
+      localStorage.removeItem('accessToken', null);
+      localStorage.removeItem('refreshToken', null);
     },
     setUser(state, action) {
       state.user = action.payload;

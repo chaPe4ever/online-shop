@@ -67,13 +67,14 @@ apiAuth.interceptors.response.use(
   }
 );
 
+// Authentication
 export const getAuthInfo = async ({ email, password }) => {
   try {
     const res = await api.post('auth/token/', { email, password });
     return res.data;
   } catch (error) {
-    console.error(error);
-    throw new Error(`Error logging in user: ${extractErrorMessage(error)}`);
+    console.error(`Error authenticating user: ${error}`);
+    throw new Error(extractErrorMessage(error));
   }
 };
 
@@ -82,10 +83,8 @@ export const verifyToken = async ({ token }) => {
     const res = await api.post('auth/token/verify/', { token });
     return res.data;
   } catch (error) {
-    console.error(error);
-    throw new Error(
-      `Error verifying current token: ${extractErrorMessage(error)}`
-    );
+    console.error(`Error verifying current token: ${error}`);
+    throw new Error(extractErrorMessage(error));
   }
 };
 
@@ -94,8 +93,8 @@ export const registerUser = async ({ email }) => {
     const res = await api.post('auth/registration/', { email });
     return res.data;
   } catch (error) {
-    console.error(error);
-    throw new Error(`Error registering user: ${extractErrorMessage(error)}`);
+    console.error(`Error registering user: ${error}`);
+    throw new Error(extractErrorMessage(error));
   }
 };
 
@@ -120,9 +119,8 @@ export const validateUser = async ({
     });
     return res.data;
   } catch (error) {
-    console.error(error);
-
-    throw new Error(`Error validating user: ${extractErrorMessage(error)}`);
+    console.error(`Error validating user: ${error}`);
+    throw new Error(extractErrorMessage(error));
   }
 };
 
@@ -132,7 +130,17 @@ export const fetchMyUser = async () => {
     const res = await apiAuth.get('users/me/');
     return res.data;
   } catch (error) {
-    console.error(error);
-    throw new Error(`Error fetchin my user: ${extractErrorMessage(error)}`);
+    console.error(`Error fetchin my user: ${error}`);
+    throw new Error(extractErrorMessage(error));
+  }
+};
+
+export const deleteMyUser = async () => {
+  try {
+    const res = await apiAuth.delete('users/me/');
+    return res.data;
+  } catch (error) {
+    console.error(`Error deleting my user: ${error}`);
+    throw new Error(extractErrorMessage(error));
   }
 };

@@ -32,7 +32,7 @@ const RegisterPage = () => {
   const [repeatPassword, setRepeatPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Selectors
   const error = useSelector(selectErrorMsg);
@@ -46,7 +46,7 @@ const RegisterPage = () => {
       await registerUser({ email });
 
       // Now show the dialog to get the validation code
-      setTimeout(() => setDialogOpen(true), 360);
+      setTimeout(() => setIsDialogOpen(true), 360);
     } catch (error) {
       dispatch(setErrorMsg(error.message));
     } finally {
@@ -79,7 +79,7 @@ const RegisterPage = () => {
       dispatch(login(authInfo));
 
       // Now hide the dialog and navigate to home
-      setDialogOpen(false);
+      setIsDialogOpen(false);
       // Add slight delay in navigation after dialog is closed
       setTimeout(() => navigate('/'), 100);
     } catch (error) {
@@ -173,7 +173,7 @@ const RegisterPage = () => {
             Register
             {isLoading && <Spinner />}
           </Button>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>Verification Code</DialogTitle>
@@ -198,7 +198,7 @@ const RegisterPage = () => {
               </div>
               <DialogFooter>
                 <Button onClick={handleVerifyUser} type="submit">
-                  Verify yourself
+                  Verify
                   {isLoading && <Spinner />}
                 </Button>
               </DialogFooter>

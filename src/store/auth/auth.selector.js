@@ -16,6 +16,7 @@ export const selectIsLoading = createSelector([selectAuthReducer], (auth) =>
   Boolean(auth.isLoading)
 );
 
-export const selectErrorMsg = createSelector([selectAuthReducer], (auth) =>
-  Boolean(auth.errorMsg)
+export const selectErrorMsg = createSelector(
+  [selectAuthReducer],
+  (auth) => auth.errorMsg
 );

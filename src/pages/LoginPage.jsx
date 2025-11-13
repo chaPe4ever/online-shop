@@ -5,29 +5,28 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router';
 import { getAuthInfo } from '@/lib/api';
 import { Spinner } from '@/components/ui/spinner';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '@/store/auth/auth.reducer';
+import { tryCatch } from '@/lib/utils';
+import { selectErrorMsg, selectIsLoading } from '@/store/auth/auth.selector';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+
+  // Selectors
+  const errorMsg = useSelector(selectErrorMsg);
+  const isLoading = useSelector(selectIsLoading);
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setIsLoading(true);
+    await tryCatch(dispatch, async () => {
       const authInfo = await getAuthInfo({ email, password });
       dispatch(login(authInfo));
       navigate('/');
-    } catch (error) {
-      setError(error);
-    } finally {
-      setIsLoading(false);
-    }
+    });
   };
 
   const handleRegisterHere = () => {
@@ -66,7 +65,7 @@ const LoginPage = () => {
           </div>
           <Button
             type="submit"
-            className="mt-10 hover:bg-amber-100 md:cursor-pointer"
+            className="mt-10 cursor-pointer"
             variant="outline"
             size="sm"
           >
@@ -74,7 +73,7 @@ const LoginPage = () => {
             {isLoading && <Spinner />}
           </Button>
         </form>
-        <Label className="mt-3 text-rose-500">{error} </Label>
+        {errorMsg && <Label className="mt-3 text-rose-500">{errorMsg} </Label>}
         <Label className="items-star mt-4 justify-start font-extralight">
           Don't you have an account?
           <span
