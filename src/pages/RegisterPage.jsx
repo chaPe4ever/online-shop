@@ -21,6 +21,7 @@ import {
   setErrorMsg,
   setIsLoading,
 } from '@/store/auth/auth.reducer';
+import { tryCatch } from '@/lib/utils';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -40,22 +41,15 @@ const RegisterPage = () => {
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    try {
-      dispatch(setErrorMsg(null));
-      dispatch(setIsLoading(true));
+    tryCatch(dispatch, async () => {
       await registerUser({ email });
-
       // Now show the dialog to get the validation code
       setTimeout(() => setIsDialogOpen(true), 360);
-    } catch (error) {
-      dispatch(setErrorMsg(error.message));
-    } finally {
-      dispatch(setIsLoading(false));
-    }
+    });
   };
 
   const handleLoginHere = () => {
-    navigate('/auth/login');
+    tryCatch(dispatch, () => navigate('/auth/login'));
   };
 
   const handleVerifyUser = async () => {

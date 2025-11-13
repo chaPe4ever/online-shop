@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from '@/store/auth/auth.reducer';
 import { tryCatch } from '@/lib/utils';
 import { selectErrorMsg, selectIsLoading } from '@/store/auth/auth.selector';
+import { toast } from 'sonner';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -26,11 +27,12 @@ const LoginPage = () => {
       const authInfo = await getAuthInfo({ email, password });
       dispatch(login(authInfo));
       navigate('/');
+      toast('Succesfully logged in!');
     });
   };
 
   const handleRegisterHere = () => {
-    navigate('/auth/register');
+    tryCatch(dispatch, () => navigate('/auth/register'));
   };
 
   return (
