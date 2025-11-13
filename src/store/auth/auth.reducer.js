@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const INITIAL_STATE = {
   accessToken: undefined,
+  refreshToken: undefined,
   user: undefined,
 };
 
@@ -19,6 +20,7 @@ export const authSlice = createSlice({
     },
     logout(state) {
       state.accessToken = null;
+      state.refreshToken = null;
     },
   },
 });

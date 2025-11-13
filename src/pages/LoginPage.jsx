@@ -76,7 +76,7 @@ const LoginPage = () => {
         </form>
         <Label className="mt-3 text-rose-500">{error} </Label>
         <Label className="items-star mt-4 justify-start font-extralight">
-          Haven't got an account?{' '}
+          Don't you have an account?
           <span
             className="font-bold md:cursor-pointer"
             onClick={handleRegisterHere}

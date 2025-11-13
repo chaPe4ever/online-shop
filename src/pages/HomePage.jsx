@@ -1,10 +1,8 @@
-import { NavigationMenu } from '@radix-ui/react-navigation-menu';
-
 const HomePage = () => {
   return (
-    <>
-      <NavigationMenu></NavigationMenu>
-    </>
+    <div className="h-screen bg-amber-200">
+      <h1>HomePage</h1>
+    </div>
   );
 };
 export default HomePage;
