@@ -23,6 +23,8 @@ export const authSlice = createSlice({
     logout(state) {
       state.accessToken = null;
       state.refreshToken = null;
+      localStorage.setItem('accessToken', null);
+      localStorage.setItem('refresToken', null);
     },
     setUser(state, action) {
       state.user = action.payload;

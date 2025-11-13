@@ -37,13 +37,13 @@ const LoginPage = () => {
   return (
     <div className="flex h-screen flex-col items-center justify-center gap-5">
       <div className="flex w-1/2 flex-col items-center justify-center">
-        <h1 className="text-2xl">Login Page</h1>
+        <h1 className="mb-5 text-2xl">Login Page</h1>
         <form
           onSubmit={handleLoginSubmit}
-          className="flex w-full flex-col gap-2"
+          className="flex w-full flex-col gap-4"
         >
           <div>
-            <Label className="mb-1">Email</Label>
+            <Label className="mb-1.5">Email</Label>
             <Input
               required
               name="email"
@@ -54,7 +54,7 @@ const LoginPage = () => {
             />
           </div>
           <div>
-            <Label className="mb-1">Password</Label>
+            <Label className="mb-1.5">Password</Label>
             <Input
               required
               name="password"

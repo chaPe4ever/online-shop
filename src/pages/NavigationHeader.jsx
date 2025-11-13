@@ -35,9 +35,11 @@ const NavigationHeader = () => {
     setTimeout(() => setPopoverOpen(false), 200);
   };
 
+  const handleDeleteAccount = async () => {};
+
   return (
     <>
-      <NavigationMenu className="p-2">
+      <NavigationMenu className="bg-background sticky top-0 z-999 px-5 py-3">
         <NavigationMenuList className="flex flex-row justify-evenly">
           <NavigationMenuItem>
             <Link to="/">
@@ -52,29 +54,35 @@ const NavigationHeader = () => {
               ) : isAuthenticated && user ? (
                 <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
                   <PopoverTrigger>
-                    <Avatar className="md:hover:cursor-pointer">
+                    <Avatar className="hover:cursor-pointer">
                       <AvatarImage src="https://github.com/shadcn.png" />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                   </PopoverTrigger>
                   <PopoverContent className="my-2 flex w-full flex-col items-center justify-center gap-2">
-                    <Label className="font-black">{user && user.email}</Label>
+                    <Label className="mb-2 font-black">
+                      {user && user.email}
+                    </Label>
                     <Button
                       onClick={handleLogoutUser}
-                      className="w-full md:hover:cursor-pointer"
+                      className="w-full hover:cursor-pointer"
                       variant="outline"
                     >
                       Log out
+                    </Button>
+                    <Button
+                      onClick={handleDeleteAccount}
+                      className="w-full hover:cursor-pointer"
+                      variant="destructive"
+                    >
+                      Delete account
                     </Button>
                   </PopoverContent>
                 </Popover>
               ) : (
                 <div>
                   <Link to="/auth/login">
-                    <Button
-                      variant="default"
-                      className="md:hover:cursor-pointer"
-                    >
+                    <Button variant="default" className="hover:cursor-pointer">
                       Login
                     </Button>
                   </Link>

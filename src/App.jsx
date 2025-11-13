@@ -2,14 +2,13 @@ import { Route, Routes } from 'react-router';
 import './App.css';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
-import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
-import ValidationPage from './pages/ValidationPage';
 import NavigationHeader from './pages/NavigationHeader';
 import { useEffect } from 'react';
 import { fetchMyUser, verifyToken } from './lib/api';
 import { useDispatch } from 'react-redux';
 import { login, logout, setIsLoading } from './store/auth/auth.reducer';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -25,7 +24,7 @@ function App() {
         dispatch(login({ user, access: token }));
       } catch (error) {
         console.error(error);
-        dispatch(logout);
+        dispatch(logout());
       } finally {
         dispatch(setIsLoading(false));
       }
@@ -41,7 +40,6 @@ function App() {
       <Route path="/auth" element={<NavigationHeader />}>
         <Route index path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
-        <Route path="validation" element={<ValidationPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
