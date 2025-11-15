@@ -3,14 +3,15 @@ import './App.css';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
-import NavigationHeader from './pages/NavigationHeader';
+import MainLayout from './layouts/MainLayout';
 import { useEffect } from 'react';
-import { fetchMyUser, verifyToken } from './lib/api';
 import { useDispatch } from 'react-redux';
 import { login, logout } from './store/auth/auth.reducer';
 import RegisterPage from './pages/RegisterPage';
-import { tryCatch } from './lib/utils';
-import { LocalStorageService } from './lib/LocalStorageService';
+import { LocalStorageService } from './services/LocalStorageService';
+import { userService } from './services/userService';
+import { authService } from './services/authService';
+import { tryCatch } from './utils/helpers/errorHandlers';
 
 function App() {
   const dispatch = useDispatch();
@@ -23,8 +24,8 @@ function App() {
         async () => {
           const token = LocalStorageService.getAccessToken();
           if (token) {
-            await verifyToken({ token });
-            const user = await fetchMyUser();
+            await authService.verifyToken({ token });
+            const user = await userService.get();
             dispatch(login({ user, access: token }));
           } else {
             dispatch(logout());
@@ -40,10 +41,10 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<NavigationHeader />}>
+      <Route path="/" element={<MainLayout />}>
         <Route path="" element={<HomePage />} />
       </Route>
-      <Route path="/auth" element={<NavigationHeader />}>
+      <Route path="/auth" element={<MainLayout />}>
         <Route index path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
       </Route>

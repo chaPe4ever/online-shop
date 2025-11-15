@@ -1,11 +1,3 @@
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-import { setErrorMsg, setIsLoading } from '@/store/auth/auth.reducer';
-
-export function cn(...inputs) {
-  return twMerge(clsx(inputs));
-}
-
 // Helper function to extract error message from propulstion api response data
 export function extractErrorMessage(error) {
   // Defensive check: Don't ever return an Error object, always string
@@ -136,32 +128,3 @@ export function extractFakestoreErrorMessage(error) {
 
   return 'An unknown error occurred.';
 }
-
-export const tryCatch = async (dispatch, cb, options = {}) => {
-  const { onError, onFinally, rethrow = false } = options;
-
-  try {
-    dispatch(setErrorMsg(null));
-    dispatch(setIsLoading(true));
-    return await cb();
-  } catch (error) {
-    // Extract the error message as a string
-    const errorMessage = extractErrorMessage(error);
-
-    if (onError) {
-      onError(error);
-    }
-
-    dispatch(setErrorMsg(errorMessage)); // Use extracted string
-
-    if (rethrow) {
-      throw error;
-    }
-    return null;
-  } finally {
-    if (onFinally) {
-      onFinally();
-    }
-    dispatch(setIsLoading(false));
-  }
-};

@@ -3,7 +3,6 @@ import { Label } from '@/components/ui/label';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router';
-import { getAuthInfo, registerUser, validateUser } from '@/lib/api';
 import { Spinner } from '@/components/ui/spinner';
 import { Dialog } from '@radix-ui/react-dialog';
 import {
@@ -16,12 +15,13 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { selectErrorMsg, selectIsLoading } from '@/store/auth/auth.selector';
 import { login, logout } from '@/store/auth/auth.reducer';
-import { tryCatch } from '@/lib/utils';
 import { useForm } from 'react-hook-form';
 import {
   LocalStorageKeys,
   LocalStorageService,
-} from '@/lib/LocalStorageService';
+} from '@/services/LocalStorageService';
+import { authService } from '@/services/authService';
+import { tryCatch } from '@/utils/helpers/errorHandlers';
 
 const RegisterPage = () => {
   // Hooks
@@ -96,7 +96,7 @@ const RegisterPage = () => {
     tryCatch(
       dispatch,
       async () => {
-        await validateUser({
+        await authService.verifyCode({
           email,
           username,
           code,
@@ -106,7 +106,7 @@ const RegisterPage = () => {
           last_name: lastName,
         });
         // Login new created user to store the info to the store
-        const authInfo = await getAuthInfo({ email, password });
+        const authInfo = await authService.getToken({ email, password });
         // Logout any previously logged in user and clear store auth data
         dispatch(logout());
         dispatch(login(authInfo));
@@ -130,7 +130,7 @@ const RegisterPage = () => {
   const onRegisterSubmit = (data) => {
     const { email } = data;
     tryCatch(dispatch, async () => {
-      await registerUser({ email });
+      await authService.register({ email });
       LocalStorageService.setRestoreRegistration(data);
       // Now show the dialog to get the validation code
       setTimeout(() => setIsDialogOpen(true), 360);

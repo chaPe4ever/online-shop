@@ -19,14 +19,14 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Spinner } from '@/components/ui/spinner';
-import { deleteMyUser } from '@/lib/api';
-import { tryCatch } from '@/lib/utils';
+import { userService } from '@/services/userService';
 import { logout } from '@/store/auth/auth.reducer';
 import {
   selectIsAuthenticated,
   selectIsLoading,
   selectUser,
 } from '@/store/auth/auth.selector';
+import { tryCatch } from '@/utils/helpers/errorHandlers';
 import { NavigationMenu } from '@radix-ui/react-navigation-menu';
 import { ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
@@ -34,7 +34,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, Outlet } from 'react-router';
 import { toast } from 'sonner';
 
-const NavigationHeader = () => {
+const Navbar = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -52,7 +52,7 @@ const NavigationHeader = () => {
 
   const handleDeleteUserAcc = async () => {
     await tryCatch(dispatch, async () => {
-      await deleteMyUser();
+      await userService.delete();
       dispatch(logout());
       toast('Succesfully deleted your account!');
     });
@@ -150,8 +150,7 @@ const NavigationHeader = () => {
           </div>
         </NavigationMenuList>
       </NavigationMenu>
-      <Outlet />
     </>
   );
 };
-export default NavigationHeader;
+export default Navbar;

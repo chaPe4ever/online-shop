@@ -1,4 +1,4 @@
-import { LocalStorageService } from '@/lib/LocalStorageService';
+import { LocalStorageService } from '@/services/LocalStorageService';
 import { createSlice } from '@reduxjs/toolkit';
 
 const INITIAL_STATE = {

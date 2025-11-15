@@ -3,14 +3,14 @@ import { Label } from '@/components/ui/label';
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router';
-import { getAuthInfo } from '@/lib/api';
 import { Spinner } from '@/components/ui/spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '@/store/auth/auth.reducer';
-import { tryCatch } from '@/lib/utils';
 import { selectErrorMsg, selectIsLoading } from '@/store/auth/auth.selector';
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
+import { authService } from '@/services/authService';
+import { tryCatch } from '@/utils/helpers/errorHandlers';
 
 const LoginPage = () => {
   // Hooks
@@ -40,7 +40,7 @@ const LoginPage = () => {
   const onLoginSubmit = async (data) => {
     const { email, password } = data;
     await tryCatch(dispatch, async () => {
-      const authInfo = await getAuthInfo({ email, password });
+      const authInfo = await authService.getToken({ email, password });
       dispatch(login(authInfo));
       navigate('/');
       toast('Succesfully logged in!');
