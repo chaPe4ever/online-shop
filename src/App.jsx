@@ -12,6 +12,7 @@ import { LocalStorageService } from './services/LocalStorageService';
 import { userService } from './services/userService';
 import { authService } from './services/authService';
 import { tryCatch } from './utils/helpers/errorHandlers';
+import ProductsPage from './pages/Products/ProductsPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route path="" element={<HomePage />} />
+        <Route path="" element={<ProductsPage />} />
       </Route>
       <Route path="/auth" element={<MainLayout />}>
         <Route index path="login" element={<LoginPage />} />

@@ -60,7 +60,7 @@ const Navbar = () => {
 
   return (
     <>
-      <NavigationMenu className="bg-background sticky top-0 z-999 px-5 py-3">
+      <NavigationMenu className="bg-background sticky top-0 z-999 rounded-2xl border-2 px-5 py-3 shadow-xl">
         <NavigationMenuList className="flex flex-row justify-evenly">
           <NavigationMenuItem>
             <Link to="/">
