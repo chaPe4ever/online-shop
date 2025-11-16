@@ -7,8 +7,7 @@ export const userService = {
       const res = await apiPropulsionAuth.get('users/me/');
       return res.data;
     } catch (error) {
-      console.log(error);
-      console.error(`Error fetchin my user: ${error}`);
+      console.error(`Error fetchin my user: ${error.message}`, error);
       throw new Error(extractErrorMessage(error));
     }
   },
@@ -17,7 +16,7 @@ export const userService = {
       const res = await apiPropulsionAuth.delete('users/me/');
       return res.data;
     } catch (error) {
-      console.error(`Error deleting my user: ${error}`);
+      console.error(`Error deleting my user: ${error.message}`, error);
       throw new Error(extractErrorMessage(error));
     }
   },

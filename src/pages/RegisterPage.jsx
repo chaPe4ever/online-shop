@@ -54,7 +54,6 @@ const RegisterPage = () => {
     const isRegisterRestorationActive = LocalStorageService.has(
       LocalStorageKeys.RESTORE_REGISTRATION
     );
-    console.log('RESTORATION:', isRegisterRestorationActive);
 
     if (isRegisterRestorationActive) {
       setIsRestoreRegistration(true);

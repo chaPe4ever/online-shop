@@ -7,7 +7,7 @@ export const productsService = {
       const res = await apiFakestore.get('products', { params });
       return res.data;
     } catch (error) {
-      console.error(`Error fetcing products: ${error}`);
+      console.error(`Error fetcing products: ${error.message}`, error);
       throw new Error(extractFakestoreErrorMessage(error));
     }
   },

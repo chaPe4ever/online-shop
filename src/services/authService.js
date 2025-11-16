@@ -7,7 +7,7 @@ export const authService = {
       const res = await apiPropulsion.post('auth/token/verify/', { token });
       return res.data;
     } catch (error) {
-      console.error(`Error verifying current token: ${error}`);
+      console.error(`Error verifying current token: ${error.message}`, error);
       throw new Error(extractErrorMessage(error));
     }
   },
@@ -16,7 +16,7 @@ export const authService = {
       const res = await apiPropulsion.post('auth/token/', { email, password });
       return res.data;
     } catch (error) {
-      console.error(`Error authenticating user: ${error}`);
+      console.error(`Error authenticating user: ${error.message}`, error);
       throw new Error(extractErrorMessage(error));
     }
   },
@@ -25,7 +25,7 @@ export const authService = {
       const res = await apiPropulsion.post('auth/registration/', { email });
       return res.data;
     } catch (error) {
-      console.error(`Error registering user: ${error}`);
+      console.error(`Error registering user: ${error.message}`, error);
       throw new Error(extractErrorMessage(error));
     }
   },

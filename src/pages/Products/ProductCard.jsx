@@ -7,15 +7,22 @@ import {
   CardFooter,
   CardTitle,
 } from '@/components/ui/card';
+import { useDispatch } from 'react-redux';
+import { addProductToCart } from '@/store/cart/cart.reducer';
 
 function ProductCard({ product }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const MAX_LENGTH = 100; // Characters to show before truncating
+  const dispatch = useDispatch();
 
   const shouldTruncate = product.description.length > MAX_LENGTH;
   const displayText = isExpanded
     ? product.description
     : product.description.slice(0, MAX_LENGTH);
+
+  function handleOnAddToCart() {
+    dispatch(addProductToCart(product));
+  }
 
   return (
     <Card className="mx-auto w-full max-w-sm">
@@ -26,7 +33,7 @@ function ProductCard({ product }) {
           alt={product.title}
         />
       </CardContent>
-      <CardFooter className="flex-col gap-2">
+      <CardFooter className="flex flex-col items-center justify-end gap-4">
         <CardTitle>{product.title}</CardTitle>
         <CardDescription>
           {displayText}
@@ -41,7 +48,9 @@ function ProductCard({ product }) {
           )}
         </CardDescription>
         <CardTitle>CHF {product.price}</CardTitle>
-        <Button className="cursor-pointer">Add to cart</Button>
+        <Button onClick={handleOnAddToCart} className="cursor-pointer">
+          Add to cart
+        </Button>
       </CardFooter>
     </Card>
   );

@@ -26,6 +26,7 @@ import {
   selectIsLoading,
   selectUser,
 } from '@/store/auth/auth.selector';
+import { selectCartProducts } from '@/store/cart/cart.selector';
 import { tryCatch } from '@/utils/helpers/errorHandlers';
 import { NavigationMenu } from '@radix-ui/react-navigation-menu';
 import { ShoppingCart } from 'lucide-react';
@@ -39,13 +40,14 @@ const Navbar = () => {
   const user = useSelector(selectUser);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const isLoading = useSelector(selectIsLoading);
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isAvatarPopoverOpen, setIsAvatarPopoverOpen] = useState(false);
+  const [isCartPopoverOpen, setIsCartPopoverOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const handleLogoutUser = async () => {
     await tryCatch(dispatch, () => {
       dispatch(logout());
-      setTimeout(() => setIsPopoverOpen(false), 200);
+      setTimeout(() => setIsAvatarPopoverOpen(false), 200);
       toast('Succesfully logged out!');
     });
   };
@@ -57,6 +59,8 @@ const Navbar = () => {
       toast('Succesfully deleted your account!');
     });
   };
+
+  const cartProducts = useSelector(selectCartProducts);
 
   return (
     <>
@@ -74,7 +78,10 @@ const Navbar = () => {
                 <Spinner className="size-5 h-full w-full" />
               ) : isAuthenticated && user ? (
                 <div>
-                  <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+                  <Popover
+                    open={isAvatarPopoverOpen}
+                    onOpenChange={setIsAvatarPopoverOpen}
+                  >
                     <PopoverTrigger>
                       <Avatar className="hover:cursor-pointer">
                         <AvatarImage src="https://github.com/shadcn.png" />
@@ -96,7 +103,7 @@ const Navbar = () => {
                         className="w-full hover:cursor-pointer"
                         variant="destructive"
                         onClick={() => {
-                          setIsPopoverOpen(false);
+                          setIsAvatarPopoverOpen(false);
                           setIsDeleteDialogOpen(true);
                         }}
                       >
@@ -145,7 +152,30 @@ const Navbar = () => {
               )}
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <ShoppingCart className="h-8 w-8 hover:cursor-pointer" />
+              <Popover
+                open={isCartPopoverOpen}
+                onOpenChange={setIsCartPopoverOpen}
+              >
+                <PopoverTrigger>
+                  <ShoppingCart className="h-8 w-8 hover:cursor-pointer" />
+                </PopoverTrigger>
+                <PopoverContent className="my-4 flex min-h-80 min-w-2xs flex-col items-center justify-between gap-2">
+                  {cartProducts ? (
+                    cartProducts.map((p) => <div key={p.id}>{p.title}</div>)
+                  ) : (
+                    <span>Cart empty</span>
+                  )}
+
+                  <Button
+                    disabled={!cartProducts || cartProducts.length === 0}
+                    onClick={handleLogoutUser}
+                    className="w-full hover:cursor-pointer"
+                    variant="outline"
+                  >
+                    Checkout
+                  </Button>
+                </PopoverContent>
+              </Popover>
             </NavigationMenuItem>
           </div>
         </NavigationMenuList>
