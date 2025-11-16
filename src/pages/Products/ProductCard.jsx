@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/card';
 import { useDispatch } from 'react-redux';
 import { addProductToCart } from '@/store/cart/cart.reducer';
+import { toast } from 'sonner';
 
 function ProductCard({ product }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -22,6 +23,7 @@ function ProductCard({ product }) {
 
   function handleOnAddToCart() {
     dispatch(addProductToCart(product));
+    toast(`Succesfully added ${product.title} to cart !`);
   }
 
   return (
