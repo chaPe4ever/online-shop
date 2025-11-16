@@ -8,27 +8,41 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { selectCartItems } from '@/store/cart/cart.selector';
+import { removeProductFromCart } from '@/store/cart/cart.reducer';
+import { selectCartCount, selectCartItems } from '@/store/cart/cart.selector';
 
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, X } from 'lucide-react';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 
 const CartMenuItem = () => {
+  const dispatch = useDispatch();
   const [isCartPopoverOpen, setIsCartPopoverOpen] = useState(false);
   const cartItems = useSelector(selectCartItems);
+  const cartCount = useSelector(selectCartCount);
 
   const handleCheckout = () => {
     // TODO impl checkout logic
     toast('Under construction!');
   };
 
+  const handleRemoveItemFromCart = (cartItem) => {
+    dispatch(removeProductFromCart(cartItem));
+  };
+
   return (
     <NavigationMenuItem>
       <Popover open={isCartPopoverOpen} onOpenChange={setIsCartPopoverOpen}>
         <PopoverTrigger>
-          <ShoppingCart className="h-8 w-8 hover:cursor-pointer" />
+          <div className="relative inline-block">
+            <ShoppingCart className="h-8 w-8 hover:cursor-pointer" />
+            {cartCount && (
+              <span className="bg-destructive border-background text-background absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full border-0 text-xs font-bold select-none">
+                {cartCount}
+              </span>
+            )}
+          </div>
         </PopoverTrigger>
         <PopoverContent className="my-4 flex h-100 min-w-2xs flex-col justify-between gap-2">
           {/* Scrollable items container */}
@@ -38,11 +52,18 @@ const CartMenuItem = () => {
                 {cartItems.map((cartItem) => (
                   <div key={cartItem.id + cartItem.title}>
                     <div className="mr-5 flex gap-5">
-                      <img
-                        className="h-15 w-15 object-contain"
-                        src={cartItem.image}
-                        alt={cartItem.title}
-                      />
+                      <div className="relative">
+                        <img
+                          className="h-15 w-15 object-contain"
+                          src={cartItem.image}
+                          alt={cartItem.title}
+                        />
+                        <X
+                          onClick={() => handleRemoveItemFromCart(cartItem)}
+                          className="text-background hover:text-background/80 bg-foreground absolute top-1/2 left-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-2xl"
+                          // size={22}
+                        />
+                      </div>
                       <div className="flex flex-1 flex-col gap-1">
                         <span className="line-clamp-2 text-xs">
                           {cartItem.title}
