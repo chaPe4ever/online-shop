@@ -6,6 +6,7 @@ import {
 import { NavigationMenu } from '@radix-ui/react-navigation-menu';
 import { Link } from 'react-router';
 import UserAvatarMenuItem from './UserAvatarMenuItem';
+import { Button } from '@/components/ui/button';
 
 const Navbar = () => {
   return (
@@ -18,6 +19,7 @@ const Navbar = () => {
             </Link>
           </NavigationMenuItem>
           <div className="flex gap-6">
+            <Link to="/shop">Shop</Link>
             <UserAvatarMenuItem />
             <CartMenuItem />
           </div>

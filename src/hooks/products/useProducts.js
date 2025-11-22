@@ -10,7 +10,7 @@ export const productsKeys = {
   detail: (id) => [...productsKeys.details(), id],
 };
 
-// Get all users
+// Get all products
 export function useProducts(filters = {}) {
   return useQuery({
     queryKey: productsKeys.list(filters),

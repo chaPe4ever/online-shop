@@ -61,7 +61,7 @@ const UserAvatarMenuItem = () => {
   return (
     <NavigationMenuItem>
       {isLoading ? (
-        <Spinner className="size-5 h-full w-full" />
+        <Spinner className="size-5" />
       ) : isAuthenticated && user ? (
         <div>
           <Popover

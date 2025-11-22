@@ -14,17 +14,18 @@ import { selectCartCount, selectCartItems } from '@/store/cart/cart.selector';
 import { ShoppingCart, X } from 'lucide-react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'sonner';
+import { useNavigate } from 'react-router';
 
 const CartMenuItem = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isCartPopoverOpen, setIsCartPopoverOpen] = useState(false);
   const cartItems = useSelector(selectCartItems);
   const cartCount = useSelector(selectCartCount);
 
   const handleCheckout = () => {
-    // TODO impl checkout logic
-    toast('Under construction!');
+    navigate('/checkout');
+    setIsCartPopoverOpen(false);
   };
 
   const handleRemoveItemFromCart = (cartItem) => {

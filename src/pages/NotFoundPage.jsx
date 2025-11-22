@@ -8,10 +8,7 @@ const NotFoundPage = () => {
         The page you're looking for doesn't exist
       </h1>
       <Link to="/">
-        <Button
-          variant="outline"
-          className="hover:bg-amber-100 md:cursor-pointer"
-        >
+        <Button variant="secondary" className="md:cursor-pointer">
           Go back home
         </Button>
       </Link>

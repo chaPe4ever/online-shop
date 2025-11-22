@@ -15,3 +15,13 @@ export const selectCartCount = createSelector(
       : null;
   }
 );
+
+export const selectIsLoading = createSelector(
+  [selectCartReducer],
+  (cart) => cart.isLoading
+);
+
+export const selectError = createSelector(
+  [selectCartReducer],
+  (cart) => cart.error
+);

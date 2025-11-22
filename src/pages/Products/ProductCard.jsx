@@ -27,17 +27,15 @@ function ProductCard({ product }) {
   }
 
   return (
-    <Card className="mx-auto w-full max-w-sm">
-      <CardContent>
+    <Card className="flex h-full w-full flex-col">
+      <CardContent className="flex flex-1 flex-col gap-2">
         <img
-          className="h-50 w-full object-contain"
+          className="h-50 w-full shrink-0 object-contain"
           src={product.image}
           alt={product.title}
         />
-      </CardContent>
-      <CardFooter className="flex flex-col items-center justify-end gap-4">
-        <CardTitle>{product.title}</CardTitle>
-        <CardDescription>
+        <CardTitle className="line-clamp-2">{product.title}</CardTitle>
+        <CardDescription className="flex-1">
           {displayText}
           {shouldTruncate && !isExpanded && '...'}
           {shouldTruncate && (
@@ -50,7 +48,9 @@ function ProductCard({ product }) {
           )}
         </CardDescription>
         <CardTitle>CHF {product.price}</CardTitle>
-        <Button onClick={handleOnAddToCart} className="cursor-pointer">
+      </CardContent>
+      <CardFooter className="mt-auto">
+        <Button onClick={handleOnAddToCart} className="w-full cursor-pointer">
           Add to cart
         </Button>
       </CardFooter>

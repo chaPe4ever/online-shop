@@ -13,6 +13,8 @@ import { userService } from './services/userService';
 import { authService } from './services/authService';
 import { tryCatch } from './utils/helpers/errorHandlers';
 import ProductsPage from './pages/Products/ProductsPage';
+import ProductsCategoryPage from './pages/ProductsCategoryPage';
+import CheckoutPage from './pages/CheckoutPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -43,7 +45,10 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route path="" element={<ProductsPage />} />
+        <Route path="" element={<HomePage />} />
+        <Route path="shop" element={<ProductsPage />} />
+        <Route path="products/:category" element={<ProductsCategoryPage />} />
+        <Route path="checkout" element={<CheckoutPage />} />
       </Route>
       <Route path="/auth" element={<MainLayout />}>
         <Route index path="login" element={<LoginPage />} />
