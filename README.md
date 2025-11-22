@@ -1,5 +1,7 @@
 # Online Shop
 
+## This is a simple online shop built with React, Redux, Tailwind CSS, and Vite.
+
 ### Makes use of fake store api
 
 #### Folder Structure Template
