@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Route, Routes } from 'react-router';
+import './App.css';
+import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
+import NotFoundPage from './pages/NotFoundPage';
+import MainLayout from './layouts/MainLayout';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { login, logout } from './store/auth/auth.reducer';
+import RegisterPage from './pages/RegisterPage';
+import { LocalStorageService } from './services/LocalStorageService';
+import { userService } from './services/userService';
+import { authService } from './services/authService';
+import { tryCatch } from './utils/helpers/errorHandlers';
+import ProductsPage from './pages/Products/ProductsPage';
+import ProductsCategoryPage from './pages/ProductsCategoryPage';
+import CheckoutPage from './pages/CheckoutPage';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Verify token validity and initial data to store
+    async function initStoreCheckup() {
+      tryCatch(
+        dispatch,
+        async () => {
+          const token = LocalStorageService.getAccessToken();
+          if (token) {
+            await authService.verifyToken({ token });
+            const user = await userService.get();
+            dispatch(login({ user, access: token }));
+          } else {
+            dispatch(logout());
+          }
+        },
+        {
+          onError: () => dispatch(logout()),
+        }
+      );
+    }
+    initStoreCheckup();
+  }, [dispatch]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route path="" element={<HomePage />} />
+        <Route path="shop" element={<ProductsPage />} />
+        <Route path="products/:category" element={<ProductsCategoryPage />} />
+        <Route path="checkout" element={<CheckoutPage />} />
+      </Route>
+      <Route path="/auth" element={<MainLayout />}>
+        <Route index path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
+      </Route>
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
